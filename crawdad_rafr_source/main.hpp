@@ -45,6 +45,14 @@ using pip = pair<int, pii>;
 const int inf = numeric_limits<int>::max();
 const double dinf = numeric_limits<double>::infinity();
 
+enum sim_pat {
+  Offline,
+  Caching,
+  Candidate,
+  Alpha
+};
+extern int sim_pat_id;
+
 class Graph {
 public:
   int n;

@@ -13,14 +13,11 @@ const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
 vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
 vector<string> vs({ "DEGREE", "BETWEENNESS", "RAFR" });
 
-// cache, off
-// vector<double> x_p({ 1.28, 2.56, 3.85, 5.13, 6.41, 7.69, 8.97 });
+// 出力の横軸
+vector<double> x_p;
 
-// alpha
-// vector<double> x_p({ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 });
+int sim_pat_id;
 
-// cand
-vector<double> x_p({ 20, 30, 40, 50, 60, 70, 80 });
 
 void outputIndex(const vector<int>& v) {
   int n = sz(v);
@@ -163,12 +160,30 @@ void solve(vector<double>& availability, const vector<vector<pii> >& contact_nod
   // outputDataToFile is called in main
 }
 
+void init_xp() {
+  if (sim_pat_id == Offline || sim_pat_id == Caching) {
+    x_p = vector<double>({ 1.28, 2.56, 3.85, 5.13, 6.41, 7.69, 8.97 });
+  } else if (sim_pat_id == Candidate) {
+    x_p = vector<double>({ 20, 30, 40, 50, 60, 70, 80 });
+  } else if (sim_pat_id == Alpha) {
+    x_p = vector<double>({ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 });
+  } else {
+
+  }
+}
+
+void init() {
+  sim_pat sim_pat_id = Offline;
+  init_xp();
+}
+
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
   cout.tie(0);
   cout << fixed << setprecision(12);
 
+  init();
   vector<vector<pii> > contact_nodes(300000); // 時間引数
   int end_ut = 0, start_ut = inf;
 
