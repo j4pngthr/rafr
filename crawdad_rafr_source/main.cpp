@@ -1,4 +1,5 @@
 #include"main.hpp"
+#include"error.hpp"
 #include"getRealTrace.hpp"
 #include"maniGraph.hpp"
 #include"method.hpp"
@@ -168,7 +169,7 @@ void init_xp() {
   } else if (sim_pat_id == Alpha) {
     x_p = vector<double>({ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 });
   } else {
-
+    error("sim_pat_id is incorrect");
   }
 }
 
