@@ -77,7 +77,6 @@ int main() {
 
   init();
   vector<vector<pii> > contact_nodes(300000); // 時間引数
-  int end_ut = 0, start_ut = inf;
 
   // obtain valid_ids
   vector<int> v(2);
@@ -95,10 +94,14 @@ int main() {
   makeDFromLambda(g);
   solveShortest(g);
 
-  rep(row, sz(x_p)) {
+  rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition
     cerr << row << endl;
-    // num_cache = row + 1; // 1 indexed
+    if (sim_pat_id == Offline) num_off = row + 1;
+    else if (sim_pat_id == Caching) num_cache = row + 1;
+    else if (sim_pat_id == Candidate) {}
+    else if (sim_pat_id == Alpha) {}
+    else error("incorrect sim_pat_id (main.cpp)");
 
     // delaration
     vector<vector<int> > success_rate(num_methods, vector<int>(600000));
@@ -106,6 +109,6 @@ int main() {
     // simulate in this condition
     solve(availability, contact_nodes, end_ut, g, row, start_ut, success_rate);
     // obtain the line number in the output
-    outputDataToFile(availability, end_ut, row, success_rate);
+    outputDataToFile(availability, row, success_rate);
   }
 }
