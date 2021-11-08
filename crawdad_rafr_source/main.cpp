@@ -9,7 +9,7 @@
 
 
 
-void solve(vector<double>& availability, const vector<vector<pii> >& contact_nodes, const int end_ut, const Graph& g, const int num_cache, const int num_off, const double row, const int start_ut, vector<vector<int> >& success_rate) {
+void solve(vector<double>& availability, const vector<vector<pii> >& contact_nodes, const int end_ut, const Graph& g, const double row, const int start_ut, vector<vector<int> >& success_rate) {
   int n = g.n;
   rep(simu_id, num_simu) {
     if (debg_flg) cerr << "row " << row << " simu_id " << simu_id << endl;
@@ -95,10 +95,6 @@ int main() {
   makeDFromLambda(g);
   solveShortest(g);
 
-  // the result is different from the case in which we use the constant num_cahce and num_off
-  // since the rand is different
-  int num_cache = 3, num_off = 5;
-
   rep(row, sz(x_p)) {
     // visualize the condition
     cerr << row << endl;
@@ -108,7 +104,7 @@ int main() {
     vector<vector<int> > success_rate(num_methods, vector<int>(600000));
     vector<double> availability(num_methods);
     // simulate in this condition
-    solve(availability, contact_nodes, end_ut, g, num_cache, num_off, row, start_ut, success_rate);
+    solve(availability, contact_nodes, end_ut, g, row, start_ut, success_rate);
     // obtain the line number in the output
     outputDataToFile(availability, end_ut, num_methods, num_simu, row, success_rate);
   }

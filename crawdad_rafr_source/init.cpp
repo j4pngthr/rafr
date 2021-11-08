@@ -2,7 +2,7 @@
 #include"error.hpp"
 #include"init.hpp"
 
-const int num_methods = 3, num_simu = 1000, debg_flg = 0;
+const int num_cache = 3, num_methods = 3, num_off = 5, num_simu = 1000, debg_flg = 0;
 static string file_head = "data/";
 const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
 vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
