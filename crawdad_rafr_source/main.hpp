@@ -53,6 +53,8 @@ enum sim_pat {
 };
 extern int sim_pat_id;
 
+extern vector<double> x_p;
+
 class Graph {
 public:
   int n;
