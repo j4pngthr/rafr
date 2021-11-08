@@ -12,6 +12,8 @@ extern const vector<int> vi;
 extern vector<int> xs;
 extern vector<double> x_p;
 extern int sim_pat_id;
+extern vector<vector<int> > success_rate;
+extern vector<double> availability;
 
 enum sim_pat {
   Offline,

@@ -13,6 +13,8 @@ vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
 vector<double> x_p;
 // simulation pattern id
 int sim_pat_id;
+vector<vector<int> > success_rate;
+vector<double> availability;
 
 string getFileHead() {
   return file_head;
@@ -30,6 +32,11 @@ string getSimPatStr() {
 
 void initFileHead() {
   file_head += getSimPatStr() + "/";
+}
+
+void initVecSize() {
+  success_rate = vector<vector<int> >(num_methods, vector<int>(600000));
+  availability = vector<double>(num_methods);
 }
 
 void initVldId() {
@@ -53,6 +60,7 @@ void init() {
   sim_pat sim_pat_id = Offline;
 
   initFileHead();
+  initVecSize();
   initVldId();
   initXp();
 }
