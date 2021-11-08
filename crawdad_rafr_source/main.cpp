@@ -9,19 +9,19 @@
 
 
 
-void solve(vector<double>& availability, const vector<vector<pii> >& contact_nodes, const int end_ut, const Graph& g, const double row, const int start_ut, vector<vector<int> >& success_rate) {
+void solve(vector<double>& availability, const vector<vector<pii> >& contact_nodes, const Graph& g, const double row, vector<vector<int> >& success_rate) {
   int n = g.n;
   rep(simu_id, num_simu) {
-    if (debg_flg) cerr << "row " << row << " simu_id " << simu_id << endl;
+    if (simu_id % 100 == 0) cerr << "row " << row << " simu_id " << simu_id << endl;
 
     // delclare the offline node
     Method off(0, 1, DEGREE, n);
-    // off.alpha = x_p[row];
     off.alpha = 0.5;
+    if (sim_pat_id == Alpha) off.alpha = x_p[row];
 
     // make offline nodes
     callMethods(g, off, num_off);
-    // if (debg_flg) { cerr << "off "; outputIndex(off.have_data); }
+    // cerr << "off "; outputIndex(off.have_data);
 
     // declare a graph considering offline nodes
     Graph g_off(n, g.valid_id[0], g.valid_id[1]);
@@ -31,20 +31,20 @@ void solve(vector<double>& availability, const vector<vector<pii> >& contact_nod
     rep(method_id, num_methods) {
       // declare the method obtaining caching nodes
       Method mt((vi[method_id] == RAFR ? 1 : 0), 0, vi[method_id], n);
-      mt.cand = (int)(0.01 * x_p[row] * n);
-      // mt.cand = n / 2;
+      mt.cand = n / 2;
+      if (sim_pat_id == Candidate) mt.cand = (int)(0.01 * x_p[row] * n);
 
       int source = rand() % n;
-      // while (off.have_data[source]) {
-      //   source = rand() % n;
-      // }
+      while (off.have_data[source]) {
+        source = rand() % n;
+      }
       mt.have_data[source] = 1;
-      if (debg_flg) cerr << "source " << source << endl;
+      // cerr << "source " << source << endl;
 
       // obtain caching nodes based on the graph without offline nodes
       // source is not included in caching
       callMethods(g, mt, num_cache);
-      // if (debg_flg) { cerr << vs[method_id] << " "; outputIndex(mt.have_data); }
+      // cerr << vs[method_id] << " "; outputIndex(mt.have_data);
 
       double avail = 0;
       rep(i, n) {
@@ -78,17 +78,8 @@ int main() {
   init();
   vector<vector<pii> > contact_nodes(300000); // 時間引数
 
-  // obtain valid_ids
-  vector<int> v(2);
-  // v[1] = 8;
-  // v[1] = 11;
-  // v[1] = 40;
-  v[0] = 20; v[1] = 97;
-  int n = v[1] - v[0] + 1;
-  // rep3(i, 2, 8) cerr << (int)(n * 0.1 * i) << " "; cerr << endl;
-
   // declare a graph
-  Graph g(n, v[0], v[1]);
+  Graph g(n, end_vld_id, start_vld_id);
   // construct the graph
   getRealTrace(contact_nodes, end_ut, g, start_ut);
   makeDFromLambda(g);
@@ -107,7 +98,7 @@ int main() {
     vector<vector<int> > success_rate(num_methods, vector<int>(600000));
     vector<double> availability(num_methods);
     // simulate in this condition
-    solve(availability, contact_nodes, end_ut, g, row, start_ut, success_rate);
+    solve(availability, contact_nodes, g, row, success_rate);
     // obtain the line number in the output
     outputDataToFile(availability, row, success_rate);
   }
