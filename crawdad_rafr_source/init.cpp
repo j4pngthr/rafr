@@ -1,5 +1,36 @@
 #include"main.hpp"
 #include"error.hpp"
+#include"init.hpp"
+
+const int num_methods = 3, num_simu = 1000, debg_flg = 0;
+string file_head = "data/";
+const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
+vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
+vector<string> vs({ "DEGREE", "BETWEENNESS", "RAFR" });
+// 出力の横軸
+vector<double> x_p;
+// simulation pattern id
+int sim_pat_id;
+enum sim_pat {
+  Offline,
+  Caching,
+  Candidate,
+  Alpha
+};
+
+string get_sim_pat_str() {
+  string s = "";
+  if (sim_pat_id == Offline) s = "Offline";
+  else if (sim_pat_id == Caching) s = "Caching";
+  else if (sim_pat_id == Candidate) s = "Candidate";
+  else if (sim_pat_id == Alpha) s = "Alpha";
+  else error("incorrect sim_pat_id (init.cpp)");
+  return s;
+}
+
+void init_file_head() {
+  file_head += get_sim_pat_str() + "/";
+}
 
 void init_xp() {
   if (sim_pat_id == Offline || sim_pat_id == Caching) {
@@ -16,4 +47,5 @@ void init_xp() {
 void init() {
   sim_pat sim_pat_id = Offline;
   init_xp();
+  init_file_head();
 }

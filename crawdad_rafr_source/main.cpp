@@ -7,100 +7,7 @@
 // #include"outputDataToFile.hpp"
 #include"simulation.hpp"
 
-// need to adjust file_head and row
-const int num_methods = 3, num_simu = 1000, debg_flg = 0;
-string file_head = "data/";
-const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
 
-vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
-vector<string> vs({ "DEGREE", "BETWEENNESS", "RAFR" });
-
-// 出力の横軸
-vector<double> x_p;
-
-int sim_pat_id;
-
-
-void outputIndex(const vector<int>& v) {
-  int n = sz(v);
-  rep(i, n) if (v[i]) cerr << i << " "; cerr << endl;
-}
-
-void outputAvailability(const vector<double>& ava, const string file_head, const int num_methods, const int row) {
-  rep(method_id, num_methods) {
-    string filename = file_head + "ava" + vs[method_id] + ".txt";
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << ava[method_id] << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << ava[method_id] << endl;
-    }
-  }
-}
-
-void outputAveDelay(const int end_ut, const string file_head, const int num_methods, const int row, const vector<vector<int> >& success_rate) {
-  rep(method_id, num_methods) {
-    string filename = file_head + "ave_del" + vs[method_id] + ".txt";
-
-    double ave_delay = 0;
-    rep(j, end_ut) { // ave_delayを計算
-      ave_delay += j * success_rate[method_id][j]; // s_cの計算時n_sで割られてる
-    }
-    double num_suc = 1.0 * accumulate(all(success_rate[method_id]), 0);
-    ave_delay /= num_suc;
-
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << ave_delay << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << ave_delay << endl;
-    }
-  }
-}
-
-// DelRate = end_ut-1におけるsuccess_rate
-void outputDelRate(const int end_ut, const string file_head, const int num_methods, const int num_simu, const int row, const vector<vector<int> >& success_rate) {
-  rep(method_id, num_methods) {
-    string filename = file_head + "del_rat" + vs[method_id] + ".txt";
-
-    double del_rate = success_rate[method_id][end_ut - 1];
-    del_rate /= num_simu;
-
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << del_rate << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << del_rate << endl;
-    }
-  }
-}
-
-void outputDataToFile(vector<double>& ava, const int end_ut, const string file_head, const int num_methods, const int num_simu, const int row, vector<vector<int> >& success_rate) {
-  outputAvailability(ava, file_head, num_methods, row);
-
-  // must before accumulation
-  outputAveDelay(end_ut, file_head, num_methods, row, success_rate);
-
-  // accumulation
-  rep(method_id, num_methods) rep3(j, 1, end_ut) success_rate[method_id][j] += success_rate[method_id][j - 1];
-
-  // after the accumulation
-  outputDelRate(end_ut, file_head, num_methods, num_simu, row, success_rate);
-
-  // success rate for each time
-  rep(method_id, num_methods) {
-    string filename = "data/success_rate" + vs[method_id] + ".txt";
-    ofstream ofs(filename);
-
-    rep(i, sz(xs)) {
-      ofs << xs[i] << " " << success_rate[method_id][xs[i]] * 1.0 / num_simu << endl;
-    }
-    ofs.close();
-  }
-}
 
 void solve(vector<double>& availability, const vector<vector<pii> >& contact_nodes, const int end_ut, const Graph& g, const int num_cache, const int num_off, const double row, const int start_ut, vector<vector<int> >& success_rate) {
   int n = g.n;
@@ -114,7 +21,7 @@ void solve(vector<double>& availability, const vector<vector<pii> >& contact_nod
 
     // make offline nodes
     callMethods(g, off, num_off);
-    if (debg_flg) { cerr << "off "; outputIndex(off.have_data); }
+    // if (debg_flg) { cerr << "off "; outputIndex(off.have_data); }
 
     // declare a graph considering offline nodes
     Graph g_off(n, g.valid_id[0], g.valid_id[1]);
@@ -137,7 +44,7 @@ void solve(vector<double>& availability, const vector<vector<pii> >& contact_nod
       // obtain caching nodes based on the graph without offline nodes
       // source is not included in caching
       callMethods(g, mt, num_cache);
-      if (debg_flg) { cerr << vs[method_id] << " "; outputIndex(mt.have_data); }
+      // if (debg_flg) { cerr << vs[method_id] << " "; outputIndex(mt.have_data); }
 
       double avail = 0;
       rep(i, n) {
@@ -191,7 +98,6 @@ int main() {
   // the result is different from the case in which we use the constant num_cahce and num_off
   // since the rand is different
   int num_cache = 3, num_off = 5;
-  file_head += "candidate/";
 
   rep(row, sz(x_p)) {
     // visualize the condition
