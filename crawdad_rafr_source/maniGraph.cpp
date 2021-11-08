@@ -1,4 +1,5 @@
-#include"main.hpp"
+#include"global.hpp"
+
 #include"maniGraph.hpp"
 
 void makeDFromLambda(Graph& g) {

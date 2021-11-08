@@ -1,4 +1,4 @@
-#include"main.hpp"
+#include"global.hpp"
 
 void betweenness(const Graph& g, Method& mt) {
   int n = g.n;

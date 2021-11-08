@@ -1,4 +1,4 @@
-#include"main.hpp"
+#include"global.hpp"
 
 #include"error.hpp"
 #include"getRealTrace.hpp"

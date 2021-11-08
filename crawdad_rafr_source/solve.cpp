@@ -1,8 +1,7 @@
-#include"main.hpp"
+#include"global.hpp"
 
 #include"maniGraph.hpp"
 #include"method.hpp"
-#include"init.hpp"
 #include"simulation.hpp"
 
 void calcAva(const int method_id, Method mt, Method off) {

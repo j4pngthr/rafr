@@ -1,4 +1,4 @@
-#include"main.hpp"
+#include"global.hpp"
 
 void connect(Graph& g, int node1, int node2) {
   rep(i, 2) {

@@ -1,5 +1,4 @@
-#include"main.hpp"
-#include"init.hpp"
+#include"global.hpp"
 
 const vector<string> method_str({ "DEGREE", "BETWEENNESS", "RAFR" });
 

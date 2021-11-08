@@ -1,6 +1,5 @@
-#include"main.hpp"
+#include"global.hpp"
 
-#include"init.hpp"
 #include"simulation.hpp"
 
 // 一番近い, データまでの距離
