@@ -3,7 +3,7 @@
 #include"init.hpp"
 
 const int num_methods = 3, num_simu = 1000, debg_flg = 0;
-string file_head = "data/";
+static string file_head = "data/";
 const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
 vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
 vector<string> vs({ "DEGREE", "BETWEENNESS", "RAFR" });
@@ -18,7 +18,11 @@ enum sim_pat {
   Alpha
 };
 
-string get_sim_pat_str() {
+string getFileHead() {
+  return getFileHead();
+}
+
+string getSimPatStr() {
   string s = "";
   if (sim_pat_id == Offline) s = "Offline";
   else if (sim_pat_id == Caching) s = "Caching";
@@ -28,11 +32,11 @@ string get_sim_pat_str() {
   return s;
 }
 
-void init_file_head() {
-  file_head += get_sim_pat_str() + "/";
+void initFileHead() {
+  file_head += getSimPatStr() + "/";
 }
 
-void init_xp() {
+void initXp() {
   if (sim_pat_id == Offline || sim_pat_id == Caching) {
     x_p = vector<double>({ 1.28, 2.56, 3.85, 5.13, 6.41, 7.69, 8.97 });
   } else if (sim_pat_id == Candidate) {
@@ -46,6 +50,6 @@ void init_xp() {
 
 void init() {
   sim_pat sim_pat_id = Offline;
-  init_xp();
-  init_file_head();
+  initXp();
+  initFileHead();
 }
