@@ -4,7 +4,7 @@
 #include"init.hpp"
 #include"maniGraph.hpp"
 #include"method.hpp"
-// #include"outputDataToFile.hpp"
+#include"output.hpp"
 #include"simulation.hpp"
 
 
@@ -110,6 +110,6 @@ int main() {
     // simulate in this condition
     solve(availability, contact_nodes, end_ut, g, num_cache, num_off, row, start_ut, success_rate);
     // obtain the line number in the output
-    outputDataToFile(availability, end_ut, file_head, num_methods, num_simu, row, success_rate);
+    outputDataToFile(availability, end_ut, num_methods, num_simu, row, success_rate);
   }
 }
