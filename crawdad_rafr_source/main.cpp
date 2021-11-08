@@ -106,6 +106,6 @@ int main() {
     // simulate in this condition
     solve(availability, contact_nodes, end_ut, g, row, start_ut, success_rate);
     // obtain the line number in the output
-    outputDataToFile(availability, end_ut, num_methods, num_simu, row, success_rate);
+    outputDataToFile(availability, end_ut, row, success_rate);
   }
 }
