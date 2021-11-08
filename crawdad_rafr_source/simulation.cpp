@@ -1,9 +1,10 @@
 #include"main.hpp"
+
+#include"init.hpp"
 #include"simulation.hpp"
 
 // 一番近い, データまでの距離
 void computeDistToData(vector<double>& dist_to_data, const Graph& g, const vector<int>& have_data, const vector<int>& is_off_node) {
-  int n = g.n;
   rep(i, n) {
     if (is_off_node[i]) continue;
     rep(j, n) {
@@ -13,8 +14,7 @@ void computeDistToData(vector<double>& dist_to_data, const Graph& g, const vecto
   }
 }
 
-int simulation(const vector<vector<pii> >& contact_nodes, const int end_ut, const Graph& g, const vector<int>& have_data, const vector<int>& is_off_node, int req, const int start_ut) {
-  int n = g.n;
+int simulation(const vector<vector<pii> >& contact_nodes, const Graph& g, const vector<int>& have_data, const vector<int>& is_off_node, int req) {
   vector<double> dist_to_data(n, inf);
   computeDistToData(dist_to_data, g, have_data, is_off_node);
 

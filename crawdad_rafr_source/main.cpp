@@ -28,7 +28,7 @@ int main() {
     cerr << row << endl;
     if (sim_pat_id == Offline) num_off = row + 1;
     else if (sim_pat_id == Caching) num_cache = row + 1;
-    else if (sim_pat_id == Candidate) {}
+    else if (sim_pat_id == Candidate) { /* 別の場所で処理 */ }
     else if (sim_pat_id == Alpha) {}
     else error("incorrect sim_pat_id (main.cpp)");
 
