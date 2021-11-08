@@ -6,7 +6,6 @@ const int num_cache = 3, num_methods = 3, num_off = 5, num_simu = 1000, debg_flg
 static string file_head = "data/";
 const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
 vector<int> xs({ 1000, 5000, 10000, 50000, 100000 });
-vector<string> vs({ "DEGREE", "BETWEENNESS", "RAFR" });
 // 出力の横軸
 vector<double> x_p;
 // simulation pattern id

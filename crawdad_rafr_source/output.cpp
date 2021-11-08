@@ -1,6 +1,13 @@
 #include"main.hpp"
 #include"init.hpp"
 
+vector<string> method_str({ "DEGREE", "BETWEENNESS", "RAFR" });
+
+string getFileName(string file_head, int method_id) {
+  string s = file_head + method_str[method_id] + ".txt";
+  return s;
+}
+
 void outputIndex(const vector<int>& v) {
   int n = sz(v);
   rep(i, n) if (v[i]) cerr << i << " "; cerr << endl;
@@ -8,7 +15,7 @@ void outputIndex(const vector<int>& v) {
 
 void outputAvailability(const vector<double>& ava, const int num_methods, const int row) {
   rep(method_id, num_methods) {
-    string filename = getFileHead() + "ava" + vs[method_id] + ".txt";
+    string filename = getFileName(getFileHead() + "ava", method_id);
     if (row == 0) {
       ofstream ofs(filename);
       ofs << x_p[row] << " " << ava[method_id] << endl;
@@ -21,7 +28,7 @@ void outputAvailability(const vector<double>& ava, const int num_methods, const 
 
 void outputAveDelay(const int end_ut, const int num_methods, const int row, const vector<vector<int> >& success_rate) {
   rep(method_id, num_methods) {
-    string filename = getFileHead() + "ave_del" + vs[method_id] + ".txt";
+    string filename = getFileName(getFileHead() + "ave_del", method_id);
 
     double ave_delay = 0;
     rep(j, end_ut) { // ave_delayを計算
@@ -43,7 +50,7 @@ void outputAveDelay(const int end_ut, const int num_methods, const int row, cons
 // DelRate = end_ut-1におけるsuccess_rate
 void outputDelRate(const int end_ut, const int num_methods, const int num_simu, const int row, const vector<vector<int> >& success_rate) {
   rep(method_id, num_methods) {
-    string filename = getFileHead() + "del_rat" + vs[method_id] + ".txt";
+    string filename = getFileName(getFileHead() + "del_rat", method_id);
 
     double del_rate = success_rate[method_id][end_ut - 1];
     del_rate /= num_simu;
@@ -72,7 +79,7 @@ void outputDataToFile(vector<double>& ava, const int end_ut, const int num_metho
 
   // success rate for each time
   rep(method_id, num_methods) {
-    string filename = "data/success_rate" + vs[method_id] + ".txt";
+    string filename = getFileName("data/success_rate", method_id);
     ofstream ofs(filename);
 
     rep(i, sz(xs)) {
