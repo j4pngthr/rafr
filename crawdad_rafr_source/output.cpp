@@ -26,7 +26,7 @@ void outputAvailability(const vector<double>& ava, const int row) {
   }
 }
 
-void outputAveDelay(const int end_ut, const int row, const vector<vector<int> >& success_rate) {
+void outputAveDelay(const int row, const vector<vector<int> >& success_rate) {
   rep(method_id, num_methods) {
     string filename = getFileName(getFileHead() + "ave_del", method_id);
 
@@ -48,7 +48,7 @@ void outputAveDelay(const int end_ut, const int row, const vector<vector<int> >&
 }
 
 // DelRate = end_ut-1におけるsuccess_rate
-void outputDelRate(const int end_ut, const int row, const vector<vector<int> >& success_rate) {
+void outputDelRate(const int row, const vector<vector<int> >& success_rate) {
   rep(method_id, num_methods) {
     string filename = getFileName(getFileHead() + "del_rat", method_id);
 
@@ -65,17 +65,17 @@ void outputDelRate(const int end_ut, const int row, const vector<vector<int> >& 
   }
 }
 
-void outputDataToFile(vector<double>& ava, const int end_ut, const int row, vector<vector<int> >& success_rate) {
+void outputDataToFile(vector<double>& ava, const int row, vector<vector<int> >& success_rate) {
   outputAvailability(ava, row);
 
   // must before accumulation
-  outputAveDelay(end_ut, row, success_rate);
+  outputAveDelay(row, success_rate);
 
   // accumulation
   rep(method_id, num_methods) rep3(j, 1, end_ut) success_rate[method_id][j] += success_rate[method_id][j - 1];
 
   // after the accumulation
-  outputDelRate(end_ut, row, success_rate);
+  outputDelRate(row, success_rate);
 
   // success rate for each time
   rep(method_id, num_methods) {
