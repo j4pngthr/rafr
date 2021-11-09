@@ -27,7 +27,7 @@ void solve(const vector<vector<pii> >& contact_nodes, const Graph& g, const doub
     // cerr << "off "; outputIndex(off.have_data);
 
     // declare a graph considering offline nodes
-    Graph g_off(n, end_vld_id, start_vld_id);
+    Graph g_off(n);
     // construct the graph
     makeOff(g, g_off, off.have_data);
 

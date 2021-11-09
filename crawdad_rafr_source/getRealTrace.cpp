@@ -24,7 +24,6 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, int& end_ut, Graph& g, in
   int n = g.n;
 
   int pre_end_ut = 0, first_contact_ut = inf;
-  end_ut = 0, start_ut = inf;
 
   string str = "tr_iMotes/contacts.Exp"; // 入力ファイル
   // str += (simu_id < 3 ? to_string(simu_id + 1) : "6");
@@ -45,12 +44,12 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, int& end_ut, Graph& g, in
 
     --v2[0]; --v2[1];
     int node1 = v2[0], node2 = v2[1], contact_ut= v2[2];
-    if (node1 == node2 || node1 < g.valid_id[0] || node1 > g.valid_id[1] || node2 < g.valid_id[0] || node2 > g.valid_id[1]) continue;
+    if (node1 == node2 || node1 < start_vld_id || node1 > end_vld_id || node2 < start_vld_id || node2 > end_vld_id) continue;
 
     chmax(pre_end_ut, contact_ut);
     chmin(first_contact_ut, contact_ut);
 
-    v2[0] -= g.valid_id[0]; v2[1] -= g.valid_id[0];
+    v2[0] -= start_vld_id; v2[1] -= end_vld_id;
     v.eb(v2);
   }
 

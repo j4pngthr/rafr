@@ -1,6 +1,6 @@
 #include"global.hpp"
 
-const int num_methods = 3, num_simu = 100, debg_flg = 0;
+const int num_methods = 3, num_simu = 1000, debg_flg = 0;
 int end_ut = inf, num_cache = 3, num_off = 5, start_ut = 0;
 int end_vld_id = inf, start_vld_id = 0; // valid id
 int n;

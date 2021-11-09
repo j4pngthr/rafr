@@ -72,11 +72,8 @@ public:
   vector<vector<double> > lambda;
   vector<vector<int> > num_shortest_paths; // ijの最短経路の個数
   vector<vector<int> > parent; // iをrootとしたときのjの親
-  vector<int> valid_id;
 
-  Graph(int n, int va0, int va1) : n(n) {
-    valid_id.resize(2);
-    valid_id[0] = va0, valid_id[1] = va1;
+  Graph(int n) : n(n) {
     d = vector<vector<double> >(n, vector<double>(n, dinf));
     rep(i, n) d[i][i] = 0;
     g.resize(n);
