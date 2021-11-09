@@ -22,7 +22,7 @@ void initVecSize() {
 }
 
 void initVldId() {
-  end_vld_id = 20, start_vld_id = 97;
+  start_vld_id = 20, end_vld_id = 97;
   n = end_vld_id - start_vld_id + 1;
 }
 
@@ -34,7 +34,7 @@ void initXp() {
   } else if (sim_pat_id == Alpha) {
     x_p = vector<double>({ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 });
   } else {
-    error("sim_pat_id is incorrect");
+    error("incorrect sim_pat_id (init.cpp)");
   }
 }
 
