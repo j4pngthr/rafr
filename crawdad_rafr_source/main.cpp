@@ -39,7 +39,7 @@ int main() {
 
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition
-    cerr << row << endl;
+    cerr << "row " << row << " (main.cpp)" << endl;
     setNumSimPat(row);
 
     // simulate in this condition

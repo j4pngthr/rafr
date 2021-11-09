@@ -15,7 +15,7 @@ void calcAva(const int method_id, Method mt, Method off) {
 
 void solve(const vector<vector<pii> >& contact_nodes, const Graph& g, const double row) {
   rep(simu_id, num_simu) {
-    if (simu_id % 100 == 0) cerr << "row " << row << " simu_id " << simu_id << endl;
+    if (simu_id % 100 == 0) cerr << "row " << row << " simu_id " << simu_id << " (solve.cpp)" << endl;
 
     // delclare the offline node
     Method off(0, 1, DEGREE, n);
@@ -32,6 +32,7 @@ void solve(const vector<vector<pii> >& contact_nodes, const Graph& g, const doub
     makeOff(g, g_off, off.have_data);
 
     rep(method_id, num_methods) {
+      cerr << "method_id " << method_id << " (solve.cpp)" << endl;
       // declare the method obtaining caching nodes
       Method mt((vi[method_id] == RAFR ? 1 : 0), 0, vi[method_id], n);
       mt.cand = n / 2;
@@ -57,7 +58,9 @@ void solve(const vector<vector<pii> >& contact_nodes, const Graph& g, const doub
         req = rand() % n;
       }
 
+      cerr << "method_id " << method_id << " req " << req << " befSim (solve.cpp)" << endl;
       int success_ut = simulation(contact_nodes, g_off, mt.have_data, off.have_data, req);
+      cerr << "success_ut " << success_ut << " (solve.cpp)" << endl;
       if (success_ut >= 0) {
         ++success_rate[method_id][success_ut];
       }

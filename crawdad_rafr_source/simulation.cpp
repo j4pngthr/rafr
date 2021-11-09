@@ -16,11 +16,15 @@ void computeDistToData(vector<double>& dist_to_data, const Graph& g, const vecto
 int simulation(const vector<vector<pii> >& contact_nodes, const Graph& g, const vector<int>& have_data, const vector<int>& is_off_node, int req) {
   vector<double> dist_to_data(n, inf);
   computeDistToData(dist_to_data, g, have_data, is_off_node);
+  // cerr << "aftComDist (simulation.cpp)" << endl;
 
   // リクエスト元の処理
   if (is_off_node[req]) return -1;
   if (have_data[req]) return 0;
+  // cerr << "aftReqDeal (simulation.cpp)" << endl;
+
   // シミュレーション
+  cerr << start_ut << " " << end_ut << endl;
   rep3(t, start_ut, end_ut) {
     for (pii p : contact_nodes[t]) {
       int node1 = p.F, node2 = p.S;

@@ -1,5 +1,10 @@
 #include"global.hpp"
 
+bool isVldId(int node) {
+  if (node < start_vld_id || node > end_vld_id) return 0;
+  return 1;
+}
+
 void connect(Graph& g, int node1, int node2) {
   rep(i, 2) {
     swap(node1, node2);
@@ -42,7 +47,7 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
 
     --v2[0]; --v2[1];
     int node1 = v2[0], node2 = v2[1], contact_ut= v2[2];
-    if (node1 == node2 || node1 < start_vld_id || node1 > end_vld_id || node2 < start_vld_id || node2 > end_vld_id) continue;
+    if (node1 == node2 || isVldId(node1) || isVldId(node2)) continue;
 
     chmax(pre_end_ut, contact_ut);
     chmin(first_contact_ut, contact_ut);
@@ -55,7 +60,7 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
   pre_end_ut = first_contact_ut + (pre_end_ut - first_contact_ut) / 2;
   cerr << "pre_end_ut " << pre_end_ut << endl;
   // pre_end_ut = 100000;
-  // cerr << sz(v) << endl;
+  cerr << "sz(v) " << sz(v) << endl;
   rep(i, sz(v)) {
     // cerr << "i " << i << endl;
     int node1 = v[i][0], node2 = v[i][1], contact_ut = v[i][2];
