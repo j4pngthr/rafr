@@ -20,7 +20,7 @@ int main() {
   // cerr << start_vld_id << " "  << end_vld_id << endl;
   Graph g(n);
   // construct the graph
-  getRealTrace(contact_nodes, end_ut, g, start_ut);
+  getRealTrace(contact_nodes, g);
   makeDFromLambda(g);
   solveShortest(g);
 

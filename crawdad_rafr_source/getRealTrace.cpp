@@ -9,7 +9,7 @@ void connect(Graph& g, int node1, int node2) {
 }
 
 // 準備期間あり
-void makeContacts(vector<vector<pii> >& contact_nodes, const int contact_ut, int& end_ut, Graph& g, int node1, int node2, const int pre_end_ut, int& start_ut) {
+void makeContacts(vector<vector<pii> >& contact_nodes, const int contact_ut, Graph& g, int node1, int node2, const int pre_end_ut) {
   if (contact_ut < pre_end_ut) {
     connect(g, node1, node2);
   } else {
@@ -20,9 +20,7 @@ void makeContacts(vector<vector<pii> >& contact_nodes, const int contact_ut, int
   }
 }
 
-void getRealTrace(vector<vector<pii> >& contact_nodes, int& end_ut, Graph& g, int& start_ut) {
-  int n = g.n;
-
+void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
   int pre_end_ut = 0, first_contact_ut = inf;
 
   string str = "tr_iMotes/contacts.Exp"; // 入力ファイル
@@ -61,7 +59,7 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, int& end_ut, Graph& g, in
   rep(i, sz(v)) {
     int node1 = v[i][0], node2 = v[i][1], contact_ut = v[i][2];
     // end_ut=0の必要
-    makeContacts(contact_nodes, contact_ut, end_ut, g, node1, node2, pre_end_ut, start_ut);
+    makeContacts(contact_nodes, contact_ut, g, node1, node2, pre_end_ut);
   }
 
   rep(i, n) rep(j, i) { // j < i
