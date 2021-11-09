@@ -8,6 +8,8 @@
 #include"solve.hpp"
 
 void setNumSimPat(int row) {
+  if (row < 0) error("row is minus (main.cpp)");
+
   if (sim_pat_id == Offline) num_off = row + 1;
   else if (sim_pat_id == Caching) num_cache = row + 1;
   else if (sim_pat_id == Candidate) { /* 別の場所で処理 */ }
@@ -28,8 +30,11 @@ int main() {
   // cerr << start_vld_id << " "  << end_vld_id << endl;
   Graph g(n);
   // construct the graph
+  cerr << "befGetReal" << endl;
   getRealTrace(contact_nodes, g);
+  cerr << "befMak" << endl;
   makeDFromLambda(g);
+  cerr << "befSol" << endl;
   solveShortest(g);
 
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数

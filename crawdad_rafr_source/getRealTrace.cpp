@@ -47,17 +47,19 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
     chmax(pre_end_ut, contact_ut);
     chmin(first_contact_ut, contact_ut);
 
-    v2[0] -= start_vld_id; v2[1] -= end_vld_id;
+    v2[0] -= start_vld_id; v2[1] -= start_vld_id;
     v.eb(v2);
   }
 
-  cerr << "first end " << first_contact_ut << " " << pre_end_ut << endl;
+  cerr << "first end " << first_contact_ut << " " << pre_end_ut << " (getRealTrace.cpp)" << endl;
   pre_end_ut = first_contact_ut + (pre_end_ut - first_contact_ut) / 2;
   cerr << "pre_end_ut " << pre_end_ut << endl;
   // pre_end_ut = 100000;
   // cerr << sz(v) << endl;
   rep(i, sz(v)) {
+    // cerr << "i " << i << endl;
     int node1 = v[i][0], node2 = v[i][1], contact_ut = v[i][2];
+    // cerr << node1 << " " << node2 << " " << contact_ut << endl;
     // end_ut=0の必要
     makeContacts(contact_nodes, contact_ut, g, node1, node2, pre_end_ut);
   }
