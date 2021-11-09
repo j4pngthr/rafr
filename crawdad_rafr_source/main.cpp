@@ -7,7 +7,7 @@
 #include"output.hpp"
 #include"solve.hpp"
 
-void setNumSimPat() {
+void setNumSimPat(int row) {
   if (sim_pat_id == Offline) num_off = row + 1;
   else if (sim_pat_id == Caching) num_cache = row + 1;
   else if (sim_pat_id == Candidate) { /* 別の場所で処理 */ }
@@ -35,7 +35,7 @@ int main() {
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition
     cerr << row << endl;
-    setNumSimPat();
+    setNumSimPat(row);
 
     // simulate in this condition
     solve(contact_nodes, g, row);
