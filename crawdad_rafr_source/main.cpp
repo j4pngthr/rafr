@@ -7,6 +7,14 @@
 #include"output.hpp"
 #include"solve.hpp"
 
+void setNumSimPat() {
+  if (sim_pat_id == Offline) num_off = row + 1;
+  else if (sim_pat_id == Caching) num_cache = row + 1;
+  else if (sim_pat_id == Candidate) { /* 別の場所で処理 */ }
+  else if (sim_pat_id == Alpha) {}
+  else error("incorrect sim_pat_id (main.cpp)");
+}
+
 int main() {
   ios::sync_with_stdio(false);
   cin.tie(0);
@@ -27,11 +35,7 @@ int main() {
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition
     cerr << row << endl;
-    if (sim_pat_id == Offline) num_off = row + 1;
-    else if (sim_pat_id == Caching) num_cache = row + 1;
-    else if (sim_pat_id == Candidate) { /* 別の場所で処理 */ }
-    else if (sim_pat_id == Alpha) {}
-    else error("incorrect sim_pat_id (main.cpp)");
+    setNumSimPat();
 
     // simulate in this condition
     solve(contact_nodes, g, row);
