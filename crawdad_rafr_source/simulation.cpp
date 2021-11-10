@@ -24,7 +24,7 @@ int simulation(const vector<vector<pii> >& contact_nodes, const Graph& g, const 
   // cerr << "aftReqDeal (simulation.cpp)" << endl;
 
   // シミュレーション
-  cerr << start_ut << " " << end_ut << endl;
+  // cerr << start_ut << " " << end_ut << endl;
   rep3(t, start_ut, end_ut) {
     for (pii p : contact_nodes[t]) {
       int node1 = p.F, node2 = p.S;

@@ -4,10 +4,10 @@
 
 string getSimPatStr() {
   string s = "";
-  if (sim_pat_id == Offline) s = "Offline";
-  else if (sim_pat_id == Caching) s = "Caching";
-  else if (sim_pat_id == Candidate) s = "Candidate";
-  else if (sim_pat_id == Alpha) s = "Alpha";
+  if (sim_pat_id == Offline) s = "off";
+  else if (sim_pat_id == Caching) s = "cache";
+  else if (sim_pat_id == Candidate) s = "candidate";
+  else if (sim_pat_id == Alpha) s = "alpha";
   else error("incorrect sim_pat_id (init.cpp)");
   return s;
 }
@@ -17,8 +17,8 @@ void initFileHead() {
 }
 
 void initVecSize() {
-  success_rate = vector<vector<int> >(num_methods, vector<int>(600000));
-  availability = vector<double>(num_methods);
+  success_rate = vector<vector<int> >(num_methods, vector<int>(600000, 0));
+  availability = vector<double>(num_methods, 0);
 }
 
 void initVldId() {
@@ -39,7 +39,7 @@ void initXp() {
 }
 
 void init() {
-  sim_pat sim_pat_id = Offline;
+  sim_pat sim_pat_id = Caching;
 
   initFileHead();
   initVecSize();

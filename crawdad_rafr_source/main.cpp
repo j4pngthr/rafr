@@ -30,17 +30,18 @@ int main() {
   // cerr << start_vld_id << " "  << end_vld_id << endl;
   Graph g(n);
   // construct the graph
-  cerr << "befGetReal" << endl;
+  // cerr << "befGetReal" << endl;
   getRealTrace(contact_nodes, g);
-  cerr << "befMak" << endl;
+  // cerr << "befMak" << endl;
   makeDFromLambda(g);
-  cerr << "befSol" << endl;
+  // cerr << "befSol" << endl;
   solveShortest(g);
 
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition
     cerr << "row " << row << " (main.cpp)" << endl;
     setNumSimPat(row);
+    initVecSize();
 
     // simulate in this condition
     solve(contact_nodes, g, row);

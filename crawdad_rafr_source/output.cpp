@@ -28,6 +28,7 @@ void outputAvailability(const vector<double>& ava, const int row) {
 void outputAveDelay(const int row, const vector<vector<int> >& success_rate) {
   rep(method_id, num_methods) {
     string filename = getFileName(getFileHead() + "ave_del", method_id);
+    cerr << filename << endl;
 
     double ave_delay = 0;
     rep(j, end_ut) { // ave_delayを計算

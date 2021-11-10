@@ -1,8 +1,16 @@
 #include"global.hpp"
 
-bool isVldId(int node) {
+#include"error.hpp"
+
+// original valid id
+bool isOriVldId(int node) {
   if (node < start_vld_id || node > end_vld_id) return 0;
   return 1;
+}
+
+void checkVldContUt(const vector<vector<pii> > & contact_nodes, int modified_contact_ut) {
+  if (modified_contact_ut < 0 || modified_contact_ut >= sz(contact_nodes)) error("incorrect contact_ut (getRealTrace.cpp)");
+  return;
 }
 
 void connect(Graph& g, int node1, int node2) {
@@ -19,6 +27,8 @@ void makeContacts(vector<vector<pii> >& contact_nodes, const int contact_ut, Gra
     connect(g, node1, node2);
   } else {
     int ut = contact_ut - pre_end_ut;
+    checkVldContUt(contact_nodes, ut);
+
     chmin(start_ut, ut - 2);
     chmax(end_ut, ut);
     contact_nodes[ut].eb(node1, node2);
@@ -36,6 +46,9 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
   string line;
   vector<vector<int> > v; // ノードとコンタクト時間
 
+  // コンタクトを2周する
+  // まずは最初と最後のコンタクトの時間を得る
+  int last_contact_ut = 0;
   while (getline(ifs, line)) {
     istringstream stream(line);
     vector<int> v2;
@@ -47,27 +60,28 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
 
     --v2[0]; --v2[1];
     int node1 = v2[0], node2 = v2[1], contact_ut= v2[2];
-    if (node1 == node2 || isVldId(node1) || isVldId(node2)) continue;
+    if (node1 == node2 || !isOriVldId(node1) || !isOriVldId(node2)) continue;
 
-    chmax(pre_end_ut, contact_ut);
+    chmax(last_contact_ut, contact_ut);
     chmin(first_contact_ut, contact_ut);
 
     v2[0] -= start_vld_id; v2[1] -= start_vld_id;
     v.eb(v2);
   }
 
-  cerr << "first end " << first_contact_ut << " " << pre_end_ut << " (getRealTrace.cpp)" << endl;
-  pre_end_ut = first_contact_ut + (pre_end_ut - first_contact_ut) / 2;
-  cerr << "pre_end_ut " << pre_end_ut << endl;
+  cerr << "first_contact_ut " << first_contact_ut << " last_contact_ut " << last_contact_ut << " (getRealTrace.cpp)" << endl;
+  pre_end_ut = first_contact_ut + (last_contact_ut - first_contact_ut) / 2;
   // pre_end_ut = 100000;
-  cerr << "sz(v) " << sz(v) << endl;
+  cerr << "pre_end_ut " << pre_end_ut << endl;
+
+  // cerr << "sz(v) " << sz(v) << endl;
   rep(i, sz(v)) {
     // cerr << "i " << i << endl;
     int node1 = v[i][0], node2 = v[i][1], contact_ut = v[i][2];
     // cerr << node1 << " " << node2 << " " << contact_ut << endl;
-    // end_ut=0の必要
     makeContacts(contact_nodes, contact_ut, g, node1, node2, pre_end_ut);
   }
+  // cerr << "aftMakeContact (getRealTrace.cpp)" << endl;
 
   rep(i, n) rep(j, i) { // j < i
     g.lambda[i][j] /= pre_end_ut - first_contact_ut; // 接触頻度

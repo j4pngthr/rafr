@@ -2,7 +2,7 @@
 
 const int num_methods = 3, num_simu = 1000, debg_flg = 0;
 int end_ut = 0, num_cache = 3, num_off = 5, start_ut = inf;
-int end_vld_id = inf, start_vld_id = 0; // valid id
+int end_vld_id, start_vld_id; // valid id
 int n;
 static string file_head = "data/";
 const vector<int> vi({ DEGREE, BETWEENNESS, RAFR });
