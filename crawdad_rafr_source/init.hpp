@@ -3,5 +3,6 @@
 
 string getFileHead();
 void init();
+void initVecSize();
 
 #endif
