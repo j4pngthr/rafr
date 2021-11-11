@@ -15,13 +15,8 @@ void outputIndex(const vector<int>& v) {
 void outputAvailability(const vector<double>& ava, const int row) {
   rep(method_id, num_methods) {
     string filename = getFileName(getFileHead() + "ava", method_id);
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << ava[method_id] << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << ava[method_id] << endl;
-    }
+    ofstream ofs(filename, (row == 0 ? ios::out : ios::app));
+    ofs << x_p[row] << " " << ava[method_id] << endl;
   }
 }
 
@@ -37,13 +32,8 @@ void outputAveDelay(const int row, const vector<vector<int> >& success_rate) {
     double num_suc = 1.0 * accumulate(all(success_rate[method_id]), 0);
     ave_delay /= num_suc;
 
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << ave_delay << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << ave_delay << endl;
-    }
+    ofstream ofs(filename, (row == 0 ? ios::out : ios::app));
+    ofs << x_p[row] << " " << ave_delay << endl;
   }
 }
 
@@ -55,13 +45,8 @@ void outputDelRate(const int row, const vector<vector<int> >& success_rate) {
     double del_rate = success_rate[method_id][end_ut - 1];
     del_rate /= num_simu;
 
-    if (row == 0) {
-      ofstream ofs(filename);
-      ofs << x_p[row] << " " << del_rate << endl;
-    } else {
-      ofstream ofs(filename, ios::app);
-      ofs << x_p[row] << " " << del_rate << endl;
-    }
+    ofstream ofs(filename, (row == 0 ? ios::out : ios::app));
+    ofs << x_p[row] << " " << del_rate << endl;
   }
 }
 

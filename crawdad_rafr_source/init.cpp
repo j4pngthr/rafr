@@ -13,7 +13,9 @@ string getSimPatStr() {
 }
 
 void initFileHead() {
+  cerr << getSimPatStr() << endl;
   setFileHead(getFileHead() + getSimPatStr() + "/");
+  cerr << getFileHead() << endl;
 }
 
 void initVecSize() {
@@ -39,8 +41,6 @@ void initXp() {
 }
 
 void init() {
-  sim_pat sim_pat_id = Caching;
-
   initFileHead();
   initVecSize();
   initVldId();
