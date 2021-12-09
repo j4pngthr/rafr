@@ -35,7 +35,7 @@ int main() {
   // cerr << "befMak" << endl;
   makeDFromLambda(g);
   // cerr << "befSol" << endl;
-  solveShortest(g);
+  dijkstra(g);
 
   rep(row, sz(x_p)) { // 出力の横軸 動かす変数
     // visualize the condition

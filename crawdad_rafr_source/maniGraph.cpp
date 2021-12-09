@@ -25,10 +25,10 @@ void makeOff(const Graph& g, Graph& g_off, const vector<int>& is_off_node) {
   }
   makeDFromLambda(g_off);
 
-  solveShortest(g_off);
+  dijkstra(g_off);
 }
 
-void solveShortest(Graph& g) {
+void dijkstra(Graph& g) {
   int n = g.n;
   rep(i, n) { // 始点
     priority_queue<pdi, vector<pdi>, greater<pdi> > q; // 距離, 頂点
