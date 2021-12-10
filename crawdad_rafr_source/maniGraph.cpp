@@ -3,14 +3,12 @@
 #include"maniGraph.hpp"
 
 void makeDFromLambda(Graph& g) {
-  int n = g.n;
   rep(i, n) rep(j, i) {
     if (g.lambda[i][j] > eps) g.d[i][j] = g.d[j][i] = 1.0 / g.lambda[i][j];
   }
 }
 
 void makeOff(const Graph& g, Graph& g_off, const vector<int>& is_off_node) {
-  int n = g.n;
   g_off.g = g.g;
   // dは作り直さないとダメ
   g_off.lambda = g.lambda;
@@ -25,33 +23,36 @@ void makeOff(const Graph& g, Graph& g_off, const vector<int>& is_off_node) {
   }
   makeDFromLambda(g_off);
 
-  dijkstra(g_off);
+  dijkstraAllS(g_off);
 }
 
-void dijkstra(Graph& g) {
-  int n = g.n;
-  rep(i, n) { // 始点
-    priority_queue<pdi, vector<pdi>, greater<pdi> > q; // 距離, 頂点
-    for (int nxt : g.g[i]) { // 下でelse if通る
-      q.emplace(g.d[i][nxt], nxt);
-      g.num_shortest_paths[i][nxt] = g.hop[i][nxt] = 1; // 最短経路の個数
-      // g.parent[i][nxt] = i;
-    }
+void dijkstra(Graph& g, const int s) {
+  priority_queue<pdi, vector<pdi>, greater<pdi> > q; // 距離, 頂点
+  for (int nxt : g.g[s]) { // 下でelse if通る
+    q.emplace(g.d[s][nxt], nxt);
+    g.num_shortest_paths[s][nxt] = g.hop[s][nxt] = 1; // 最短経路の個数
+    g.parent[s][nxt] = s;
+  }
 
-    while (!q.empty()) {
-      pdi p = q.top();
-      int now = p.S;
-      q.pop();
-      for (int nxt : g.g[now]) {
-        if (chmin(g.d[i][nxt], g.d[i][now] + g.d[now][nxt])) {
-          q.emplace(g.d[i][nxt], nxt);
-          g.num_shortest_paths[i][nxt] = g.num_shortest_paths[i][now];
-          g.hop[i][nxt] = g.hop[i][now] + 1;
-          // g.parent[i][nxt] = now;
-        } else if (abs(g.d[i][nxt] - (g.d[i][now] + g.d[now][nxt])) < eps) {
-          g.num_shortest_paths[i][nxt] += g.num_shortest_paths[i][now];
-        }
+  while (!q.empty()) {
+    pdi p = q.top();
+    int now = p.S;
+    q.pop();
+    for (int nxt : g.g[now]) {
+      if (chmin(g.d[s][nxt], g.d[s][now] + g.d[now][nxt])) {
+        q.emplace(g.d[s][nxt], nxt);
+        g.num_shortest_paths[s][nxt] = g.num_shortest_paths[s][now];
+        g.hop[s][nxt] = g.hop[s][now] + 1;
+        g.parent[s][nxt] = now;
+      } else if (abs(g.d[s][nxt] - (g.d[s][now] + g.d[now][nxt])) < eps) {
+        g.num_shortest_paths[s][nxt] += g.num_shortest_paths[s][now];
       }
     }
+  }
+}
+
+void dijkstraAllS(Graph& g) { // dijkstra with all start points
+  rep(s, n) {
+    dijkstra(g, s);
   }
 }

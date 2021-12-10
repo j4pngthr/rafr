@@ -46,6 +46,35 @@ void degree(const Graph& g, Method& mt) {
   // rep(i, n) cerr << "deg " << mt.score[i].S << " " << mt.score[i].F << endl;
 }
 
+// parent[s][cur] : s始点のダイクストラでcurの親
+vector<int> getPath(const Graph& g, int s, int t) {
+    vector<int> path;
+    for (int cur = t; cur != -1; cur = g.parent[s][cur]) {
+        path.eb(cur);
+    }
+    reverse(all(path)); // 逆順なのでひっくり返す
+    return path;
+}
+
+double calcA(const Graph& g, int k, const vector<int>& path) {
+  double A = 1;
+  rep(i, sz(path) - 1) {
+    if (i == k) continue;
+    int a = path[i], b = path[i + 1];
+    A *= g.lambda[a][b] / (g.lambda[a][b] + g.lambda[path[k]][path[k + 1]]);
+  }
+  return A;
+}
+
+double calcP(const Graph& g, const int s, const int t) {
+  double p = 0;
+  vector<int> path = getPath(g, s, t); // s, ..., t
+  rep(k, sz(path) - 1) {
+    p += calcA(g, k, path) * (1 - exp(-g.lambda[path[k]][path[k + 1]] * end_ut));
+  }
+  return p;
+}
+
 void rafrIte(const Graph& g, Method& mt, const int num_copies) {
   int n = g.n;
 
@@ -53,20 +82,36 @@ void rafrIte(const Graph& g, Method& mt, const int num_copies) {
   vector<int> is_cand(n);
   rep(i, n) if (mt.have_data[i]) is_cand[i] = 1;
 
+  vector<vector<double> > p(n, vector<double>(n));
+  rep(s, n) rep3(t, s + 1, n) {
+    if (s == t) continue;
+    p[s][t] = calcP(g, s, t);
+    p[t][s] = p[s][t];
+  }
+  { // normalize
+    double ma = 0;
+    rep(i, n) rep3(j, i + 1, n) chmax(ma, p[i][j]);
+    rep(i, n) rep3(j, i + 1, n) p[i][j] /= ma;
+  }
+
   rep(_, mt.cand) {
     vector<pdi> score(n);
     rep(i, n) score[i].S = i;
     rep(i, n) {
       if (is_cand[i]) continue;
-      for (int j : g.g[i]) {
-        if (is_cand[j]) continue;
-        score[i].F += 1.0 / g.d[i][j];
-      }
-
-      // rep(j, n) {
-      //   if (i == j || g.d[i][j] >= inf - eps || g.hop[i][j] >= inf - eps) continue;
-      //   score[i].F += 1.0 / g.d[i][j] / g.hop[i][j];
+      // { // degree
+      //   for (int j : g.g[i]) {
+      //     if (is_cand[j]) continue;
+      //     score[i].F += 1.0 / g.d[i][j];
+      //   }
       // }
+
+      { // weighted connectivity
+        rep(j, n) {
+          if (is_cand[j] || i == j || g.d[i][j] >= inf - eps || g.hop[i][j] >= inf - eps) continue;
+          score[i].F += p[i][j] / g.d[i][j] / g.hop[i][j];
+        }
+      }
     }
 
     sort(all(score));
