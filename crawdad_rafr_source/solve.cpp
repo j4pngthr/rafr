@@ -2,6 +2,7 @@
 
 #include"maniGraph.hpp"
 #include"method.hpp"
+#include"output.hpp"
 #include"simulation.hpp"
 
 void calcAva(const int method_id, Method mt, Method off) {
@@ -39,16 +40,16 @@ void solve(const vector<vector<pii> >& contact_nodes, const Graph& g, const doub
       if (sim_pat_id == Candidate) mt.cand = (int)(0.01 * x_p[row] * n);
 
       int source = rand() % n;
-      while (off.have_data[source]) {
-        source = rand() % n;
-      }
+      // while (off.have_data[source]) {
+      //   source = rand() % n;
+      // }
       mt.have_data[source] = 1;
       // cerr << "source " << source << endl;
 
       // obtain caching nodes based on the graph without offline nodes
       // source is not included in caching
       callMethods(g, mt, num_cache);
-      // cerr << vs[method_id] << " "; outputIndex(mt.have_data);
+      if (method_id == 0) outputIndex(mt.have_data);
 
       calcAva(method_id, mt, off);
 
