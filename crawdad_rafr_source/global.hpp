@@ -25,6 +25,7 @@ typedef long long ll;
 #define CONNECTIVITY 214
 #define DEGREE 34
 #define RAFR 1705
+#define OPT 597
 #define RANDOM 17013
 
 template<typename T1, typename T2> inline bool chmin(T1 &a, T2 b) { if (a > b) { a = b; return 1; } return 0; }
@@ -49,12 +50,16 @@ extern const int num_methods, num_simu, debg_flg;
 extern int end_ut, num_cache, num_off, start_ut;
 extern int end_vld_id, start_vld_id;
 extern int n;
+extern int prb_ctr;
 extern const vector<int> vi;
+extern const vector<string> method_str;
 extern vector<int> xs;
 extern vector<double> x_p;
 extern int sim_pat_id;
-extern vector<vector<int> > success_rate;
+extern vector<vector<int> > success_rate, rands;
 extern vector<double> availability;
+extern int row;
+extern int simu_id;
 
 enum sim_pat {
   Offline,
@@ -73,6 +78,7 @@ public:
   vector<vector<int> > num_shortest_paths; // ijの最短経路の個数
   vector<vector<int> > parent; // iをrootとしたときのjの親
 
+  Graph() {}
   Graph(int n) : n(n) {
     d = vector<vector<double> >(n, vector<double>(n, dinf));
     rep(i, n) d[i][i] = 0;
@@ -97,6 +103,7 @@ public:
       score[i].S = i;
     }
   }
+  Method() {}
   Method(int is_ite, int is_pro, int method_id, int n) : is_ite(is_ite), is_pro(is_pro), method_id(method_id), n(n) {
     have_data.resize(n);
     score.resize(n);

@@ -30,9 +30,10 @@ void initVldId() {
 
 void initXp() {
   if (sim_pat_id == Offline || sim_pat_id == Caching) {
-    x_p = vector<double>({ 1.28, 2.56, 3.85, 5.13, 6.41, 7.69, 8.97 });
+    x_p = vector<double>({ 1.28, 2.56, 3.85, 5.13, 6.41, 7.69, 8.97, 10.26 });
   } else if (sim_pat_id == Candidate) {
     x_p = vector<double>({ 20, 30, 40, 50, 60, 70, 80 });
+    // x_p = vector<double>({ 40 });
   } else if (sim_pat_id == Alpha) {
     x_p = vector<double>({ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 });
   } else {
@@ -40,9 +41,21 @@ void initXp() {
   }
 }
 
+void initRands() {
+  rands = vector<vector<int> >(4, vector<int>(4000000));
+  rep(i, sz(rands)) rep(j, sz(rands[i])) {
+    if (i == 0) rands[i][j] = rand();
+    else rands[i][j] = rand() % n;
+    // cerr << rands[i][j] << " ";
+  }
+  // cerr << endl;
+}
+
 void init() {
+  initVldId();
+  // nを得たあと
+  initRands();
   initFileHead();
   initVecSize();
-  initVldId();
   initXp();
 }

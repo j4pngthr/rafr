@@ -23,16 +23,27 @@ void connect(Graph& g, int node1, int node2) {
 
 // 準備期間あり
 void makeContacts(vector<vector<pii> >& contact_nodes, const int contact_ut, Graph& g, int node1, int node2, const int pre_end_ut) {
-  if (contact_ut < pre_end_ut) {
-    connect(g, node1, node2);
-  } else {
-    int ut = contact_ut - pre_end_ut;
-    checkVldContUt(contact_nodes, ut);
+    if (contact_ut < pre_end_ut) {
+        connect(g, node1, node2);
+    } else { // 後半，クエリの伝送に使うデータ
+        int ut = contact_ut - pre_end_ut;
+        checkVldContUt(contact_nodes, ut);
 
-    chmin(start_ut, ut - 2);
-    chmax(end_ut, ut);
-    contact_nodes[ut].eb(node1, node2);
-  }
+        chmin(start_ut, ut - 2);
+        chmax(end_ut, ut);
+        contact_nodes[ut].eb(node1, node2);
+    }
+
+    // 後半だけで
+    // if (contact_ut >= pre_end_ut) { // クエリの伝送に使う
+    //     connect(g, node1, node2);
+    //     int ut = contact_ut - pre_end_ut;
+    //     checkVldContUt(contact_nodes, ut);
+    //
+    //     chmin(start_ut, ut - 2);
+    //     chmax(end_ut, ut);
+    //     contact_nodes[ut].eb(node1, node2);
+    // }
 }
 
 void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
@@ -87,6 +98,21 @@ void getRealTrace(vector<vector<pii> >& contact_nodes, Graph& g) {
     g.lambda[i][j] /= pre_end_ut - first_contact_ut; // 接触頻度
   }
   rep(i, n) rep(j, i) g.lambda[j][i] = g.lambda[i][j];
+
+  int ave = 0, mi = inf, ma = 0;
+  rep(i, n) {
+    ave += sz(g.g[i]);
+    chmin(mi, sz(g.g[i]));
+    chmax(ma, sz(g.g[i]));
+  }
+  cout << mi << " " << ave * 1.0 / n << " " << ma << endl;
+
+  vector<int> _v;
+  rep(i, n) _v.eb(sz(g.g[i]));
+  sort(all(_v));
+  // 中央値
+  if (sz(_v) % 2) cout << _v[sz(_v) / 2] << endl;
+  else cout << (_v[sz(_v) / 2 - 1] + _v[sz(_v) / 2]) / 2.0 << endl;
 
   // rep(i, 1) {
   //   cerr << i << "    ";

@@ -1,7 +1,5 @@
 #include"global.hpp"
 
-const vector<string> method_str({ "DEGREE", "BETWEENNESS", "RAFR" });
-
 string getFileName(string file_head, int method_id) {
   string s = file_head + method_str[method_id] + ".txt";
   return s;
@@ -72,4 +70,32 @@ void outputDataToFile(vector<double>& ava, const int row, vector<vector<int> >& 
     }
     ofs.close();
   }
+}
+
+void outputMetricScore(const Method &mt) { // キャッシングノード数, 候補ノード数固定
+    string filename = "data/metric_value.txt";
+    vector<double> vd;
+    if (simu_id == 0) {
+        vd = vector<double>(n, 0);
+    } else {
+        ifstream ifs(filename);
+        string line;
+        while (getline(ifs, line)) {
+            istringstream iss(line);
+            string str;
+            while (iss >> str) {
+                double x = stod(str);
+                vd.eb(x);
+            }
+        }
+    }
+    if (sz(vd) != n) {
+        cerr << sz(vd) << endl;
+        exit(0);
+    }
+
+    rep(i, n) vd[mt.score[i].S] += mt.score[i].F / num_simu;
+
+    ofstream ofs(filename, ios::out);
+    rep(i, n) ofs << vd[i] << endl;
 }

@@ -11,5 +11,7 @@ set colorsequence classic
 set output "del_rat.eps"
 plot "del_ratDEGREE.txt" with linespoints pointtype 4 pointsize 2 title 'Degree',\
 "del_ratBETWEENNESS.txt" with linespoints pointtype 2 pointsize 2 title 'Betweenness',\
-"del_ratRAFR.txt" with linespoints pointtype 6 pointsize 2 title 'RAFR'
+"del_ratCONNECTIVITY.txt" with linespoints pointtype 8 pointsize 2 title 'Connectivity',\
+"del_ratRAFR.txt" with linespoints pointtype 6 pointsize 2 title 'RAFC',\
+"del_ratOPT.txt" with linespoints pointtype 10 title 'Optimal'
 set output
